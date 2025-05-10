@@ -50,8 +50,24 @@ console.log('Starting server...');
     app.use("/api/products", require("./routes/productRoutes")); // Add product routes
     app.use("/api/orders", require("./routes/orderRoutes")); // Add order routes
 
-    // Error handling middleware
+    // Catch-all for 404s and ensure CORS headers are set
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+      if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+      }
+      next();
+    });
+
+    // Error handling middleware (ensure CORS headers)
     app.use((err, req, res, next) => {
+      res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
       console.error('Error middleware:', err.message, err.stack);
       res.status(500).json({ message: 'Something went wrong!', error: err.message, stack: err.stack });
     });
