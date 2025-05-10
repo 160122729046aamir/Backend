@@ -50,9 +50,15 @@ console.log('Starting server...');
     app.use("/api/products", require("./routes/productRoutes")); // Add product routes
     app.use("/api/orders", require("./routes/orderRoutes")); // Add order routes
 
+    // Allowed origins for CORS
+    const allowedOrigins = ['http://localhost:5173', 'https://syntrad-frontend.vercel.app'];
+
     // Catch-all for 404s and ensure CORS headers are set
     app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+      const origin = req.headers.origin;
+      if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+      }
       res.header('Access-Control-Allow-Credentials', 'true');
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -64,7 +70,10 @@ console.log('Starting server...');
 
     // Error handling middleware (ensure CORS headers)
     app.use((err, req, res, next) => {
-      res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+      const origin = req.headers.origin;
+      if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+      }
       res.header('Access-Control-Allow-Credentials', 'true');
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
