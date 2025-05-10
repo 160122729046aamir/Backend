@@ -22,13 +22,11 @@ console.log('Starting server...');
     app.use(cors({
       origin:['http://localhost:5173','https://syntrad-frontend.vercel.app'],
       credentials:true
-    }))
-
-    // Explicitly handle preflight OPTIONS requests for all routes
-    app.options('*', cors({
-      origin:['http://localhost:5173','https://syntrad-frontend.vercel.app'],
-      credentials:true
-    }));
+    }))    // Explicitly handle preflight OPTIONS requests for all routes
+    // app.options('*', cors({
+    //   origin:['http://localhost:5173','https://syntrad-frontend.vercel.app'],
+    //   credentials:true
+    // }));
 
     // Rate limiting
     const limiter = rateLimit({
