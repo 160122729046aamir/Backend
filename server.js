@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const app = express();
-const connectDB = require("./config/db");
+const connectDB = require("./config/dbConfig");
 
 // Enhanced logging for debugging Vercel serverless issues
 console.log('Starting server...');
