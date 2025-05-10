@@ -17,6 +17,12 @@ app.use(cors({
   credentials:true
 }))
 
+// Explicitly handle preflight OPTIONS requests for all routes
+app.options('*', cors({
+  origin:['http://localhost:5173','https://syntrad-frontend.vercel.app'],
+  credentials:true
+}));
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
